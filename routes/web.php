@@ -14,7 +14,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 
 // Frontend Routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home'); 
 Route::post('/contact', [HomeController::class, 'contact'])->name('contact.store');
 
 // Auth Routes
