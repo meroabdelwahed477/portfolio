@@ -10,9 +10,9 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title_ar', 'title_en', 'description_ar', 'description_en',
-        'category', 'thumbnail', 'link', 'features_ar', 'features_en',
-        'technologies', 'order', 'is_active'
+        'title_ar', 'title_en', 'company_name_ar', 'company_name_en',
+        'description_ar', 'description_en', 'category', 'thumbnail', 'link',
+        'features_ar', 'features_en', 'technologies', 'order', 'is_active'
     ];
 
     protected $casts = [

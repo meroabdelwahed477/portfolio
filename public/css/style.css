@@ -766,6 +766,26 @@ section {
     color: var(--text-primary);
 }
 
+.project-company {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.project-company i {
+    color: var(--primary-color);
+    font-size: 0.95rem;
+}
+
+.project-company .company-name {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
 .project-description {
     color: var(--text-secondary);
     line-height: 1.6;

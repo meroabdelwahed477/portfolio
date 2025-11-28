@@ -26,6 +26,8 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'title_ar' => 'required|string|max:255',
             'title_en' => 'nullable|string|max:255',
+            'company_name_ar' => 'nullable|string|max:255',
+            'company_name_en' => 'nullable|string|max:255',
             'description_ar' => 'required|string',
             'description_en' => 'nullable|string',
             'category' => 'required|in:web,api-web,api-mobile',
@@ -100,6 +102,8 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'title_ar' => 'required|string|max:255',
             'title_en' => 'nullable|string|max:255',
+            'company_name_ar' => 'nullable|string|max:255',
+            'company_name_en' => 'nullable|string|max:255',
             'description_ar' => 'required|string',
             'description_en' => 'nullable|string',
             'category' => 'required|in:web,api-web,api-mobile',

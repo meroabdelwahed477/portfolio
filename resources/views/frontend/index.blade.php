@@ -217,12 +217,12 @@
                                         {{ $experience->start_date->format('Y') }} - {{ $experience->end_date ? $experience->end_date->format('Y') : 'حالياً' }}
                                     @endif
                                 </span>
-                                @if($experience->type == 'job' && $experience->experience_letter)
+                                {{-- @if($experience->type == 'job' && $experience->experience_letter)
                                 <a href="{{ Storage::url($experience->experience_letter) }}" download class="btn-download-experience" title="تحميل خطاب الخبرة">
                                     <i class="fas fa-file-pdf"></i>
                                     <span data-en="Download Experience Letter">تحميل خطاب الخبرة</span>
                                 </a>
-                                @endif
+                                @endif --}}
                             </div>
                         </div>
                         <h4 class="experience-position" data-en="{{ $experience->position_en ?? '' }}">{{ $experience->position_ar }}</h4>
@@ -384,7 +384,7 @@
     <section id="projects" class="projects">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title" data-en="My Projects">مشاريعي</h2>
+                <h2 class="section-title" data-en="Projects I Contributed To">المشاريع التي شاركت بها</h2>
                 <div class="title-underline"></div>
             </div>
             
@@ -434,6 +434,13 @@
                             @endif
                         </span>
                         <h3 class="project-title" data-en="{{ $project->title_en ?? '' }}">{{ $project->title_ar }}</h3>
+                        @if($project->company_name_ar || $project->company_name_en)
+                        <div class="project-company">
+                            <i class="fas fa-building"></i>
+                            <span class="company-label" data-en="Company:">شركة:</span>
+                            <span class="company-name" data-en="{{ $project->company_name_en ?? '' }}">{{ $project->company_name_ar }}</span>
+                        </div>
+                        @endif
                         <p class="project-description" data-en="{{ $project->description_en ?? '' }}">
                             {{ $project->description_ar }}
                         </p>

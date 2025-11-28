@@ -24,6 +24,16 @@
                 <input type="text" name="title_en" value="{{ old('title_en', $project->title_en) }}">
             </div>
 
+            <div class="form-group">
+                <label>اسم الشركة (عربي)</label>
+                <input type="text" name="company_name_ar" value="{{ old('company_name_ar', $project->company_name_ar) }}" placeholder="اسم الشركة">
+            </div>
+
+            <div class="form-group">
+                <label>اسم الشركة (إنجليزي)</label>
+                <input type="text" name="company_name_en" value="{{ old('company_name_en', $project->company_name_en) }}" placeholder="Company Name">
+            </div>
+
             <div class="form-group" style="grid-column: 1 / -1;">
                 <label>الوصف (عربي) *</label>
                 <textarea name="description_ar" rows="4" required>{{ old('description_ar', $project->description_ar) }}</textarea>
