@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --primary-color: {{ $primaryColor ?? '#6366f1' }};
@@ -100,7 +101,7 @@
                     </p>
                     <div class="hero-buttons">
                         <a href="#projects" class="btn btn-primary">
-                            <span data-en="View My Work">شاهد أعمالي</span>
+                            <span data-en="Projects">المشاريع</span>
                             <i class="fas fa-briefcase"></i>
                         </a>
                         <a href="#contact" class="btn btn-primary">
@@ -151,7 +152,7 @@
                         </div>
                         <div class="info-item">
                             <span class="info-label" data-en="Email:">البريد الإلكتروني:</span>
-                                <span class="info-value">{{ $profile->email }}</span>
+                                <span class="info-value"><a href="mailto:{{ $profile->email }}" style="color: inherit; text-decoration: underline;">{{ $profile->email }}</a></span>
                         </div>
                             @if($profile->phone)
                         <div class="info-item">
@@ -523,7 +524,7 @@
                         </div>
                         <div class="contact-details">
                             <h4 data-en="Email">البريد الإلكتروني</h4>
-                            <p>{{ $profile->email }}</p>
+                            <p><a href="mailto:{{ $profile->email }}" style="color: inherit; text-decoration: none;">{{ $profile->email }}</a></p>
                         </div>
                     </div>
                     @if($profile->phone)
@@ -550,23 +551,37 @@
                     @endif
                     @endif
                 </div>
-                <form class="contact-form" id="contactForm" action="{{ route('contact.store') }}" method="POST">
+                <form class="contact-form" id="contactForm" action="{{ route('contact.store') }}" method="POST" autocomplete="on">
                     @csrf
+                    <input type="hidden" name="lang" id="formLang" value="ar">
+                    
                     <div class="form-group">
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" autocomplete="name" value="{{ old('name') }}" required>
                         <label for="name" data-en="Your Name">اسمك</label>
+                        @error('name')
+                        <span class="error-message" style="display: block; color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; padding-right: 0.5rem;">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" autocomplete="email" value="{{ old('email') }}" required>
                         <label for="email" data-en="Your Email">بريدك الإلكتروني</label>
+                        @error('email')
+                        <span class="error-message" style="display: block; color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; padding-right: 0.5rem;">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <input type="text" id="subject" name="subject" required>
+                        <input type="text" id="subject" name="subject" autocomplete="off" value="{{ old('subject') }}" required>
                         <label for="subject" data-en="Subject">الموضوع</label>
+                        @error('subject')
+                        <span class="error-message" style="display: block; color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; padding-right: 0.5rem;">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <textarea id="message" name="message" rows="5" required></textarea>
+                        <textarea id="message" name="message" rows="5" autocomplete="off" required>{{ old('message') }}</textarea>
                         <label for="message" data-en="Your Message">رسالتك</label>
+                        @error('message')
+                        <span class="error-message" style="display: block; color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem; padding-right: 0.5rem;">{{ $message }}</span>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">
                         <span data-en="Send Message">إرسال الرسالة</span>
@@ -581,7 +596,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2024 <span data-en="All Rights Reserved">جميع الحقوق محفوظة</span></p>
+                <p>&copy; 2025 <span data-en="All Rights Reserved">جميع الحقوق محفوظة</span> - Marwa Abd El-Wahed</p>
                 <div class="footer-social">
                     @foreach($socialLinks as $link)
                         @if($link->url && $link->url !== '')
@@ -647,6 +662,29 @@
         });
     </script>
     <script src="{{ asset('js/script.js') }}"></script>
+    
+    @if(session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const isArabic = document.documentElement.getAttribute('lang') === 'ar';
+            Swal.fire({
+                icon: 'success',
+                title: isArabic ? 'تم الإرسال بنجاح!' : 'Message Sent Successfully!',
+                text: '{{ session('success') }}',
+                confirmButtonText: isArabic ? 'حسناً' : 'OK',
+                confirmButtonColor: '#10b981',
+                timer: 3000,
+                timerProgressBar: true
+            }).then(() => {
+                // Reset form after success
+                const contactForm = document.getElementById('contactForm');
+                if (contactForm) {
+                    contactForm.reset();
+                }
+            });
+        });
+    </script>
+    @endif
 </body>
 </html>
 

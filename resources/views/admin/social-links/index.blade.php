@@ -172,7 +172,8 @@
             'linkedin': 'مثال: https://www.linkedin.com/in/your-profile',
             'facebook': 'مثال: https://www.facebook.com/your-profile',
             'gmail': 'مثال: your.email@gmail.com (سيتم إضافة mailto: تلقائياً)',
-            'github': 'مثال: https://github.com/your-username'
+            'github': 'مثال: https://github.com/your-username',
+            'whatsapp': 'مثال: +201234567890 (سيتم إنشاء رابط WhatsApp تلقائياً)'
         };
 
         function updateIconPreview(formType) {
@@ -204,6 +205,14 @@
                         // Remove mailto: if present
                         if (urlInput.value.startsWith('mailto:')) {
                             urlInput.value = urlInput.value.replace('mailto:', '');
+                        }
+                    } else if (platform === 'whatsapp') {
+                        urlInput.type = 'tel';
+                        urlInput.placeholder = '+201234567890';
+                        urlLabel.textContent = 'رقم الهاتف *';
+                        // Remove WhatsApp link if present
+                        if (urlInput.value.startsWith('https://wa.me/')) {
+                            urlInput.value = urlInput.value.replace('https://wa.me/', '');
                         }
                     } else {
                         urlInput.type = 'url';
@@ -251,6 +260,9 @@
             // For Gmail, remove mailto: prefix for editing
             if (platform === 'gmail' && url.startsWith('mailto:')) {
                 urlInput.value = url.replace('mailto:', '');
+            } else if (platform === 'whatsapp' && url.startsWith('https://wa.me/')) {
+                // For WhatsApp, extract phone number from URL
+                urlInput.value = url.replace('https://wa.me/', '');
             } else {
                 urlInput.value = url;
             }

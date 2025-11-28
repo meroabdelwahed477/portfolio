@@ -334,20 +334,32 @@ revealElements.forEach(element => {
 
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+if (contactForm) {
+    // Update language field before submit
+    contactForm.addEventListener('submit', function(e) {
+        const currentLang = getCurrentLang();
+        const langInput = document.getElementById('formLang');
+        if (langInput) {
+            langInput.value = currentLang;
+        }
+        
+        // Show loading state
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        if (submitButton) {
+            const originalText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span data-en="Sending...">جاري الإرسال...</span>';
+            
+            // Re-enable button after 5 seconds in case of error
+            setTimeout(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
+            }, 5000);
+        }
+    });
     
-    // Get form data
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData);
-    
-    // Here you would typically send the data to a server
-    // For now, we'll just show a success message
-    showNotification('تم إرسال الرسالة بنجاح!', 'success');
-    
-    // Reset form
-    contactForm.reset();
-});
+    // Display success message with SweetAlert (will be handled in inline script)
+}
 
 function showNotification(message, type = 'success') {
     // Create notification element

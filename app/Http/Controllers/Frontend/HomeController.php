@@ -37,6 +37,15 @@ class HomeController extends Controller
 
     public function contact(Request $request)
     {
+        // Get language from request header or default to Arabic
+        $lang = $request->header('X-Language', $request->input('lang', 'ar'));
+        if (!in_array($lang, ['ar', 'en'])) {
+            $lang = 'ar';
+        }
+        
+        // Set locale for validation messages
+        app()->setLocale($lang);
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -46,6 +55,8 @@ class HomeController extends Controller
 
         \App\Models\Contact::create($validated);
 
-        return back()->with('success', 'تم إرسال رسالتك بنجاح!');
+        $successMessage = $lang === 'ar' ? 'تم إرسال رسالتك بنجاح!' : 'Your message has been sent successfully!';
+        
+        return back()->with('success', $successMessage);
     }
 }

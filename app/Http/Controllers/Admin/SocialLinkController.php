@@ -34,6 +34,10 @@ class SocialLinkController extends Controller
             'github' => [
                 'name' => 'GitHub',
                 'icon' => 'fab fa-github'
+            ],
+            'whatsapp' => [
+                'name' => 'WhatsApp',
+                'icon' => 'fab fa-whatsapp'
             ]
         ];
     }
@@ -49,9 +53,11 @@ class SocialLinkController extends Controller
             'order' => 'nullable|integer|min:0',
         ];
         
-        // For Gmail, allow email format, for others require URL
+        // For Gmail, allow email format, for WhatsApp allow phone number, for others require URL
         if ($platform === 'gmail') {
             $rules['url'] = 'required|email|max:255';
+        } elseif ($platform === 'whatsapp') {
+            $rules['url'] = 'required|string|max:255';
         } else {
             $rules['url'] = 'required|url|max:255';
         }
@@ -69,6 +75,18 @@ class SocialLinkController extends Controller
             $email = str_replace('mailto:', '', $email);
             // Add mailto: prefix
             $validated['url'] = 'mailto:' . $email;
+        } elseif ($platform === 'whatsapp') {
+            // For WhatsApp, format the phone number and create WhatsApp link
+            $phone = $validated['url'];
+            // Remove any non-digit characters except +
+            $phone = preg_replace('/[^0-9+]/', '', $phone);
+            // If doesn't start with +, assume it's a local number and add country code if needed
+            if (!str_starts_with($phone, '+')) {
+                // You can add default country code here if needed
+                // $phone = '+20' . $phone; // Example for Egypt
+            }
+            // Create WhatsApp link
+            $validated['url'] = 'https://wa.me/' . $phone;
         }
         
         // Set default icon based on platform
@@ -94,9 +112,11 @@ class SocialLinkController extends Controller
             'order' => 'nullable|integer|min:0',
         ];
         
-        // For Gmail, allow email format, for others require URL
+        // For Gmail, allow email format, for WhatsApp allow phone number, for others require URL
         if ($platform === 'gmail') {
             $rules['url'] = 'required|email|max:255';
+        } elseif ($platform === 'whatsapp') {
+            $rules['url'] = 'required|string|max:255';
         } else {
             $rules['url'] = 'required|url|max:255';
         }
@@ -114,6 +134,18 @@ class SocialLinkController extends Controller
             $email = str_replace('mailto:', '', $email);
             // Add mailto: prefix
             $validated['url'] = 'mailto:' . $email;
+        } elseif ($platform === 'whatsapp') {
+            // For WhatsApp, format the phone number and create WhatsApp link
+            $phone = $validated['url'];
+            // Remove any non-digit characters except +
+            $phone = preg_replace('/[^0-9+]/', '', $phone);
+            // If doesn't start with +, assume it's a local number and add country code if needed
+            if (!str_starts_with($phone, '+')) {
+                // You can add default country code here if needed
+                // $phone = '+20' . $phone; // Example for Egypt
+            }
+            // Create WhatsApp link
+            $validated['url'] = 'https://wa.me/' . $phone;
         }
 
         // Set default icon based on platform
